@@ -1,0 +1,51 @@
+{
+  "id": "t1-sag",
+  "label": "T1 sag",
+  "seriesNumber": 501,
+  "plane": "sagittal",
+  "n": 33,
+  "rows": 640,
+  "cols": 640,
+  "pixelSpacingMm": [
+    0.25,
+    0.25
+  ],
+  "sliceThicknessMm": 3.0,
+  "spacingBetweenSlicesMm": 3.3,
+  "imageOrientationPatient": [
+    -0.0835933387279,
+    0.99643337726593,
+    0.01151880994439,
+    -0.0081998677924,
+    0.0108710611239,
+    -0.9999073147773
+  ],
+  "firstImagePositionPatient": [
+    117.952023264369,
+    -126.46248178079,
+    54.806483392138
+  ],
+  "lastImagePositionPatient": [
+    12.7251932587241,
+    -135.29909066751,
+    55.5733367246575
+  ],
+  "defaultWindowCenter": 1343.0,
+  "defaultWindowWidth": 2335.0,
+  "volumeMin": 0.0,
+  "volumeMax": 2841.117919921875,
+  "volumePath": "data/t1-sag/volume.u16.gz",
+  "volumeShape": [
+    33,
+    384,
+    384
+  ],
+  "volumeInPlaneScale": 0.6,
+  "slicePattern": "data/t1-sag/slice-{index}.webp",
+  "thumb": "data/t1-sag/thumb.webp",
+  "voxelType": "uint16",
+  "voxelLayout": "zyx",
+  "endian": "little",
+  "compression": "gzip",
+  "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+}

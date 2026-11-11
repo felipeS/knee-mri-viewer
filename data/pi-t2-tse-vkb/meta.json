@@ -1,0 +1,52 @@
+{
+  "id": "pi-t2-tse-vkb",
+  "label": "PI T2 TSE VKB",
+  "seriesNumber": 601,
+  "plane": "oblique-coronal",
+  "n": 13,
+  "rows": 660,
+  "cols": 660,
+  "pixelSpacingMm": [
+    0.24647887051105,
+    0.24647887051105
+  ],
+  "sliceThicknessMm": 2.0,
+  "spacingBetweenSlicesMm": 2.0,
+  "imageOrientationPatient": [
+    0.9960531592369,
+    0.08875552564859,
+    -0.0007368718506,
+    0.04313671216368,
+    -0.4913212060928,
+    -0.8699095845222
+  ],
+  "firstImagePositionPatient": [
+    -25.199384698579,
+    -32.954441090707,
+    57.9389700459428
+  ],
+  "lastImagePositionPatient": [
+    -27.061094293306,
+    -12.159774800424,
+    46.101914839644
+  ],
+  "defaultWindowCenter": 1067.0,
+  "defaultWindowWidth": 1855.0,
+  "volumeMin": 0.0,
+  "volumeMax": 2270.456787109375,
+  "volumePath": "data/pi-t2-tse-vkb/volume.u16.gz",
+  "volumeShape": [
+    13,
+    384,
+    384
+  ],
+  "volumeInPlaneScale": 0.5818181818181818,
+  "slicePattern": "data/pi-t2-tse-vkb/slice-{index}.webp",
+  "thumb": "data/pi-t2-tse-vkb/thumb.webp",
+  "voxelType": "uint16",
+  "voxelLayout": "zyx",
+  "endian": "little",
+  "compression": "gzip",
+  "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set.",
+  "planeNote": "Oblique coronal along the ACL (VKB) planning axis. Approximate plane label."
+}

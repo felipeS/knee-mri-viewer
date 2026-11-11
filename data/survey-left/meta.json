@@ -1,0 +1,82 @@
+{
+  "id": "survey-left",
+  "label": "SURVEY_LEFT",
+  "seriesNumber": 101,
+  "plane": "multi",
+  "n": 15,
+  "rows": 320,
+  "cols": 320,
+  "pixelSpacingMm": [
+    0.9375,
+    0.9375
+  ],
+  "sliceThicknessMm": 10.0,
+  "spacingBetweenSlicesMm": 25.882,
+  "imageOrientationPatient": [
+    0.99979180097579,
+    0.00231795432046,
+    0.020272096619,
+    -0.0034320002887,
+    0.99847531318664,
+    0.05509375035762
+  ],
+  "firstImagePositionPatient": [
+    -28.552882562209,
+    -197.57087734564,
+    -61.087851460266
+  ],
+  "lastImagePositionPatient": [
+    79.8480453491211,
+    -195.32439804077,
+    150.766676306724
+  ],
+  "defaultWindowCenter": 890.0,
+  "defaultWindowWidth": 1547.0,
+  "volumeMin": 0.0,
+  "volumeMax": 3461.783935546875,
+  "volumePath": "data/survey-left/volume.u16.gz",
+  "volumeShape": [
+    15,
+    320,
+    320
+  ],
+  "volumeInPlaneScale": 1.0,
+  "slicePattern": "data/survey-left/slice-{index}.webp",
+  "thumb": "data/survey-left/thumb.webp",
+  "voxelType": "uint16",
+  "voxelLayout": "zyx",
+  "endian": "little",
+  "compression": "gzip",
+  "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set.",
+  "slicePlanes": [
+    "axial",
+    "axial",
+    "axial",
+    "axial",
+    "axial",
+    "coronal",
+    "coronal",
+    "coronal",
+    "coronal",
+    "coronal",
+    "sagittal",
+    "sagittal",
+    "sagittal",
+    "sagittal",
+    "sagittal"
+  ],
+  "planeGroups": {
+    "axial": [
+      0,
+      4
+    ],
+    "coronal": [
+      5,
+      9
+    ],
+    "sagittal": [
+      10,
+      14
+    ]
+  }
+}

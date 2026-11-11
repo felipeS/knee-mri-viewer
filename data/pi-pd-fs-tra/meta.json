@@ -1,0 +1,51 @@
+{
+  "id": "pi-pd-fs-tra",
+  "label": "PI PD FS Tra",
+  "seriesNumber": 401,
+  "plane": "axial",
+  "n": 43,
+  "rows": 640,
+  "cols": 640,
+  "pixelSpacingMm": [
+    0.25,
+    0.25
+  ],
+  "sliceThicknessMm": 3.0,
+  "spacingBetweenSlicesMm": 3.3,
+  "imageOrientationPatient": [
+    0.9964662194252,
+    0.08398848772048,
+    0.00100925553124,
+    -0.0835933387279,
+    0.9904618859291,
+    0.10953283309936
+  ],
+  "firstImagePositionPatient": [
+    -15.663211274892,
+    -128.71220363676,
+    -102.47006751784
+  ],
+  "lastImagePositionPatient": [
+    -14.526706147938,
+    -143.85150112211,
+    35.2959275077882
+  ],
+  "defaultWindowCenter": 417.0,
+  "defaultWindowWidth": 835.0,
+  "volumeMin": 0.0,
+  "volumeMax": 2193.73486328125,
+  "volumePath": "data/pi-pd-fs-tra/volume.u16.gz",
+  "volumeShape": [
+    43,
+    384,
+    384
+  ],
+  "volumeInPlaneScale": 0.6,
+  "slicePattern": "data/pi-pd-fs-tra/slice-{index}.webp",
+  "thumb": "data/pi-pd-fs-tra/thumb.webp",
+  "voxelType": "uint16",
+  "voxelLayout": "zyx",
+  "endian": "little",
+  "compression": "gzip",
+  "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+}

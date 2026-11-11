@@ -1,0 +1,51 @@
+{
+  "id": "pi-pd-fs-sag",
+  "label": "PI PD FS sag",
+  "seriesNumber": 201,
+  "plane": "sagittal",
+  "n": 33,
+  "rows": 800,
+  "cols": 800,
+  "pixelSpacingMm": [
+    0.20000000298023,
+    0.20000000298023
+  ],
+  "sliceThicknessMm": 3.0,
+  "spacingBetweenSlicesMm": 3.3,
+  "imageOrientationPatient": [
+    -0.0835933387279,
+    0.99643337726593,
+    0.01151880994439,
+    -0.0081998677924,
+    0.0108710611239,
+    -0.9999073147773
+  ],
+  "firstImagePositionPatient": [
+    117.954318203822,
+    -126.48766559105,
+    54.8311942815369
+  ],
+  "lastImagePositionPatient": [
+    12.7274881981764,
+    -135.32427447777,
+    55.5980476140564
+  ],
+  "defaultWindowCenter": 402.0,
+  "defaultWindowWidth": 803.0,
+  "volumeMin": 0.0,
+  "volumeMax": 2142.332275390625,
+  "volumePath": "data/pi-pd-fs-sag/volume.u16.gz",
+  "volumeShape": [
+    33,
+    384,
+    384
+  ],
+  "volumeInPlaneScale": 0.48,
+  "slicePattern": "data/pi-pd-fs-sag/slice-{index}.webp",
+  "thumb": "data/pi-pd-fs-sag/thumb.webp",
+  "voxelType": "uint16",
+  "voxelLayout": "zyx",
+  "endian": "little",
+  "compression": "gzip",
+  "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+}

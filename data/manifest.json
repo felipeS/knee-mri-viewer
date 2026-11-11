@@ -1,0 +1,350 @@
+{
+  "title": "Left knee MRI viewer",
+  "disclaimer": "This is not a diagnosis. Wait for the radiologist's report (Befund) and talk to your doctor.",
+  "laterality": "left",
+  "modality": "MR",
+  "bodyPart": "KNEE",
+  "seriesCount": 6,
+  "series": [
+    {
+      "id": "survey-left",
+      "label": "SURVEY_LEFT",
+      "seriesNumber": 101,
+      "plane": "multi",
+      "n": 15,
+      "rows": 320,
+      "cols": 320,
+      "pixelSpacingMm": [
+        0.9375,
+        0.9375
+      ],
+      "sliceThicknessMm": 10.0,
+      "spacingBetweenSlicesMm": 25.882,
+      "imageOrientationPatient": [
+        0.99979180097579,
+        0.00231795432046,
+        0.020272096619,
+        -0.0034320002887,
+        0.99847531318664,
+        0.05509375035762
+      ],
+      "firstImagePositionPatient": [
+        -28.552882562209,
+        -197.57087734564,
+        -61.087851460266
+      ],
+      "lastImagePositionPatient": [
+        79.8480453491211,
+        -195.32439804077,
+        150.766676306724
+      ],
+      "defaultWindowCenter": 890.0,
+      "defaultWindowWidth": 1547.0,
+      "volumeMin": 0.0,
+      "volumeMax": 3461.783935546875,
+      "volumePath": "data/survey-left/volume.u16.gz",
+      "volumeShape": [
+        15,
+        320,
+        320
+      ],
+      "volumeInPlaneScale": 1.0,
+      "slicePattern": "data/survey-left/slice-{index}.webp",
+      "thumb": "data/survey-left/thumb.webp",
+      "voxelType": "uint16",
+      "voxelLayout": "zyx",
+      "endian": "little",
+      "compression": "gzip",
+      "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set.",
+      "slicePlanes": [
+        "axial",
+        "axial",
+        "axial",
+        "axial",
+        "axial",
+        "coronal",
+        "coronal",
+        "coronal",
+        "coronal",
+        "coronal",
+        "sagittal",
+        "sagittal",
+        "sagittal",
+        "sagittal",
+        "sagittal"
+      ],
+      "planeGroups": {
+        "axial": [
+          0,
+          4
+        ],
+        "coronal": [
+          5,
+          9
+        ],
+        "sagittal": [
+          10,
+          14
+        ]
+      }
+    },
+    {
+      "id": "pi-pd-fs-sag",
+      "label": "PI PD FS sag",
+      "seriesNumber": 201,
+      "plane": "sagittal",
+      "n": 33,
+      "rows": 800,
+      "cols": 800,
+      "pixelSpacingMm": [
+        0.20000000298023,
+        0.20000000298023
+      ],
+      "sliceThicknessMm": 3.0,
+      "spacingBetweenSlicesMm": 3.3,
+      "imageOrientationPatient": [
+        -0.0835933387279,
+        0.99643337726593,
+        0.01151880994439,
+        -0.0081998677924,
+        0.0108710611239,
+        -0.9999073147773
+      ],
+      "firstImagePositionPatient": [
+        117.954318203822,
+        -126.48766559105,
+        54.8311942815369
+      ],
+      "lastImagePositionPatient": [
+        12.7274881981764,
+        -135.32427447777,
+        55.5980476140564
+      ],
+      "defaultWindowCenter": 402.0,
+      "defaultWindowWidth": 803.0,
+      "volumeMin": 0.0,
+      "volumeMax": 2142.332275390625,
+      "volumePath": "data/pi-pd-fs-sag/volume.u16.gz",
+      "volumeShape": [
+        33,
+        384,
+        384
+      ],
+      "volumeInPlaneScale": 0.48,
+      "slicePattern": "data/pi-pd-fs-sag/slice-{index}.webp",
+      "thumb": "data/pi-pd-fs-sag/thumb.webp",
+      "voxelType": "uint16",
+      "voxelLayout": "zyx",
+      "endian": "little",
+      "compression": "gzip",
+      "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+    },
+    {
+      "id": "pi-pd-fs-cor",
+      "label": "PI PD FS COR",
+      "seriesNumber": 301,
+      "plane": "coronal",
+      "n": 35,
+      "rows": 640,
+      "cols": 640,
+      "pixelSpacingMm": [
+        0.25,
+        0.25
+      ],
+      "sliceThicknessMm": 3.0,
+      "spacingBetweenSlicesMm": 3.3,
+      "imageOrientationPatient": [
+        0.9964662194252,
+        0.08398848772048,
+        0.00100925553124,
+        -0.0081998677924,
+        0.10923013091087,
+        -0.9939826726913
+      ],
+      "firstImagePositionPatient": [
+        -16.241562068113,
+        -123.27920050546,
+        52.9337468128505
+      ],
+      "lastImagePositionPatient": [
+        -25.620735346921,
+        -12.149383496493,
+        65.2233309727016
+      ],
+      "defaultWindowCenter": 484.0,
+      "defaultWindowWidth": 968.0,
+      "volumeMin": 0.0,
+      "volumeMax": 2015.94140625,
+      "volumePath": "data/pi-pd-fs-cor/volume.u16.gz",
+      "volumeShape": [
+        35,
+        384,
+        384
+      ],
+      "volumeInPlaneScale": 0.6,
+      "slicePattern": "data/pi-pd-fs-cor/slice-{index}.webp",
+      "thumb": "data/pi-pd-fs-cor/thumb.webp",
+      "voxelType": "uint16",
+      "voxelLayout": "zyx",
+      "endian": "little",
+      "compression": "gzip",
+      "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+    },
+    {
+      "id": "pi-pd-fs-tra",
+      "label": "PI PD FS Tra",
+      "seriesNumber": 401,
+      "plane": "axial",
+      "n": 43,
+      "rows": 640,
+      "cols": 640,
+      "pixelSpacingMm": [
+        0.25,
+        0.25
+      ],
+      "sliceThicknessMm": 3.0,
+      "spacingBetweenSlicesMm": 3.3,
+      "imageOrientationPatient": [
+        0.9964662194252,
+        0.08398848772048,
+        0.00100925553124,
+        -0.0835933387279,
+        0.9904618859291,
+        0.10953283309936
+      ],
+      "firstImagePositionPatient": [
+        -15.663211274892,
+        -128.71220363676,
+        -102.47006751784
+      ],
+      "lastImagePositionPatient": [
+        -14.526706147938,
+        -143.85150112211,
+        35.2959275077882
+      ],
+      "defaultWindowCenter": 417.0,
+      "defaultWindowWidth": 835.0,
+      "volumeMin": 0.0,
+      "volumeMax": 2193.73486328125,
+      "volumePath": "data/pi-pd-fs-tra/volume.u16.gz",
+      "volumeShape": [
+        43,
+        384,
+        384
+      ],
+      "volumeInPlaneScale": 0.6,
+      "slicePattern": "data/pi-pd-fs-tra/slice-{index}.webp",
+      "thumb": "data/pi-pd-fs-tra/thumb.webp",
+      "voxelType": "uint16",
+      "voxelLayout": "zyx",
+      "endian": "little",
+      "compression": "gzip",
+      "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+    },
+    {
+      "id": "t1-sag",
+      "label": "T1 sag",
+      "seriesNumber": 501,
+      "plane": "sagittal",
+      "n": 33,
+      "rows": 640,
+      "cols": 640,
+      "pixelSpacingMm": [
+        0.25,
+        0.25
+      ],
+      "sliceThicknessMm": 3.0,
+      "spacingBetweenSlicesMm": 3.3,
+      "imageOrientationPatient": [
+        -0.0835933387279,
+        0.99643337726593,
+        0.01151880994439,
+        -0.0081998677924,
+        0.0108710611239,
+        -0.9999073147773
+      ],
+      "firstImagePositionPatient": [
+        117.952023264369,
+        -126.46248178079,
+        54.806483392138
+      ],
+      "lastImagePositionPatient": [
+        12.7251932587241,
+        -135.29909066751,
+        55.5733367246575
+      ],
+      "defaultWindowCenter": 1343.0,
+      "defaultWindowWidth": 2335.0,
+      "volumeMin": 0.0,
+      "volumeMax": 2841.117919921875,
+      "volumePath": "data/t1-sag/volume.u16.gz",
+      "volumeShape": [
+        33,
+        384,
+        384
+      ],
+      "volumeInPlaneScale": 0.6,
+      "slicePattern": "data/t1-sag/slice-{index}.webp",
+      "thumb": "data/t1-sag/thumb.webp",
+      "voxelType": "uint16",
+      "voxelLayout": "zyx",
+      "endian": "little",
+      "compression": "gzip",
+      "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+    },
+    {
+      "id": "pi-t2-tse-vkb",
+      "label": "PI T2 TSE VKB",
+      "seriesNumber": 601,
+      "plane": "oblique-coronal",
+      "n": 13,
+      "rows": 660,
+      "cols": 660,
+      "pixelSpacingMm": [
+        0.24647887051105,
+        0.24647887051105
+      ],
+      "sliceThicknessMm": 2.0,
+      "spacingBetweenSlicesMm": 2.0,
+      "imageOrientationPatient": [
+        0.9960531592369,
+        0.08875552564859,
+        -0.0007368718506,
+        0.04313671216368,
+        -0.4913212060928,
+        -0.8699095845222
+      ],
+      "firstImagePositionPatient": [
+        -25.199384698579,
+        -32.954441090707,
+        57.9389700459428
+      ],
+      "lastImagePositionPatient": [
+        -27.061094293306,
+        -12.159774800424,
+        46.101914839644
+      ],
+      "defaultWindowCenter": 1067.0,
+      "defaultWindowWidth": 1855.0,
+      "volumeMin": 0.0,
+      "volumeMax": 2270.456787109375,
+      "volumePath": "data/pi-t2-tse-vkb/volume.u16.gz",
+      "volumeShape": [
+        13,
+        384,
+        384
+      ],
+      "volumeInPlaneScale": 0.5818181818181818,
+      "slicePattern": "data/pi-t2-tse-vkb/slice-{index}.webp",
+      "thumb": "data/pi-t2-tse-vkb/thumb.webp",
+      "voxelType": "uint16",
+      "voxelLayout": "zyx",
+      "endian": "little",
+      "compression": "gzip",
+      "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set.",
+      "planeNote": "Oblique coronal along the ACL (VKB) planning axis. Approximate plane label."
+    }
+  ],
+  "identifiersStripped": true,
+  "sourceNote": "Derived from an anonymized MRI study. Names, IDs, dates, and institution data were removed before these assets were written."
+}

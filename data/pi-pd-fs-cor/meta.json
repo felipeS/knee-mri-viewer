@@ -1,0 +1,51 @@
+{
+  "id": "pi-pd-fs-cor",
+  "label": "PI PD FS COR",
+  "seriesNumber": 301,
+  "plane": "coronal",
+  "n": 35,
+  "rows": 640,
+  "cols": 640,
+  "pixelSpacingMm": [
+    0.25,
+    0.25
+  ],
+  "sliceThicknessMm": 3.0,
+  "spacingBetweenSlicesMm": 3.3,
+  "imageOrientationPatient": [
+    0.9964662194252,
+    0.08398848772048,
+    0.00100925553124,
+    -0.0081998677924,
+    0.10923013091087,
+    -0.9939826726913
+  ],
+  "firstImagePositionPatient": [
+    -16.241562068113,
+    -123.27920050546,
+    52.9337468128505
+  ],
+  "lastImagePositionPatient": [
+    -25.620735346921,
+    -12.149383496493,
+    65.2233309727016
+  ],
+  "defaultWindowCenter": 484.0,
+  "defaultWindowWidth": 968.0,
+  "volumeMin": 0.0,
+  "volumeMax": 2015.94140625,
+  "volumePath": "data/pi-pd-fs-cor/volume.u16.gz",
+  "volumeShape": [
+    35,
+    384,
+    384
+  ],
+  "volumeInPlaneScale": 0.6,
+  "slicePattern": "data/pi-pd-fs-cor/slice-{index}.webp",
+  "thumb": "data/pi-pd-fs-cor/thumb.webp",
+  "voxelType": "uint16",
+  "voxelLayout": "zyx",
+  "endian": "little",
+  "compression": "gzip",
+  "note": "Anonymized derived imagery. Identifiers removed. Not a diagnostic image set."
+}
