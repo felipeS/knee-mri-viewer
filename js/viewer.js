@@ -1,6 +1,6 @@
 // Slice viewer: series picker, slice scroll, zoom/pan, window/level from the 16-bit volume.
 
-import { getSlice, preloadSeries, loadVolume, geometry, directionLetter, clamp } from './data.js';
+import { getSlice, preloadSeries, loadVolume, loadFindings, markersOn, geometry, directionLetter, clamp } from './data.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -18,6 +18,9 @@ const st = {
   volError: '',
   tool: 'pan',
   active: false,
+  findings: null, // data/findings.json once loaded
+  showMarkers: true,
+  focus: null, // finding id whose marker is emphasised
 };
 const remembered = new Map(); // per-series slice index and window
 let canvas, ctx, stage;
@@ -42,6 +45,21 @@ export function initViewer(manifest) {
   bindPointer();
   new ResizeObserver(resize).observe(stage);
   openSeries(manifest.series.find((s) => s.id === 'pi-pd-fs-sag')?.id ?? manifest.series[0].id);
+
+  // Region markers are optional: without findings.json the viewer works as before.
+  loadFindings().then((f) => {
+    st.findings = f;
+    $('marker-group').hidden = false;
+    syncUi();
+    schedule();
+  }).catch((err) => console.warn(err));
+}
+
+/** Emphasise one finding's region marker (and make sure markers are shown); null clears it. */
+export function focusFinding(id) {
+  st.focus = id;
+  if (id) st.showMarkers = true;
+  if (st.s) { syncUi(); schedule(); }
 }
 
 export function setActive(on) {
@@ -229,7 +247,105 @@ function draw() {
       ? `Image ${st.i + 1} of this series could not be loaded${st.volState === 'loading' ? '; waiting for the volume…' : '.'}`
       : 'Loading image…';
   }
+  if (src) drawMarkers(L);
   drawHud(L, kind);
+}
+
+// ---- Approximate region markers (data/findings.json) ----
+// Orientation aids only: a dashed ring over a region, never a tracing of a finding.
+
+const here = () => (st.findings && st.showMarkers ? markersOn(st.findings, st.s.id, st.i) : []);
+
+function drawMarkers(L) {
+  const TAU = Math.PI * 2;
+  for (const m of here()) {
+    const strong = !st.focus || st.focus === m.finding;
+    const cx = L.x + m.x * L.dw, cy = L.y + m.y * L.dh;
+    const rx = m.rx * L.dw, ry = (m.ry ?? m.rx) * L.dh;
+    ctx.save();
+    ctx.globalAlpha = strong ? 1 : 0.45;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, TAU);
+    if (strong) { ctx.fillStyle = 'rgba(227, 165, 72, 0.07)'; ctx.fill(); }
+    ctx.setLineDash([6, 5]);
+    ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)'; ctx.stroke();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = '#e3a548'; ctx.stroke();
+    ctx.setLineDash([]);
+    if (strong) {
+      const text = `approx. ${m.label}`;
+      ctx.font = '11.5px ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace';
+      const w = ctx.measureText(text).width;
+      const gap = 10;
+      let tx = cx - w / 2, ty = cy;
+      if (m.side === 'left') tx = cx - rx - gap - w;
+      else if (m.side === 'top') ty = cy - ry - gap - 8;
+      else if (m.side === 'bottom') ty = cy + ry + gap + 8;
+      else tx = cx + rx + gap;
+      tx = clamp(tx, 10, Math.max(10, L.W - w - 10));
+      ty = clamp(ty, 14, L.H - 14);
+      ctx.fillStyle = 'rgba(10, 11, 12, 0.8)';
+      ctx.fillRect(tx - 5, ty - 9, w + 10, 18);
+      ctx.strokeStyle = 'rgba(227, 165, 72, 0.5)'; ctx.lineWidth = 1;
+      ctx.strokeRect(tx - 4.5, ty - 8.5, w + 9, 17);
+      ctx.fillStyle = '#e3a548';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, tx, ty + 0.5);
+    }
+    ctx.restore();
+  }
+}
+
+let jumpKey = '';
+
+function syncMarkers() {
+  const f = st.findings;
+  if (!f) return;
+  $('marker-toggle').checked = st.showMarkers;
+  const inSeries = f.markers.filter((m) => m.series === st.s.id);
+  const slices = [...new Set(inSeries.map((m) => m.slice))].sort((a, b) => a - b);
+
+  // Caption strip under the image: always says what the rings are, or where to find them.
+  const cap = $('marker-caption');
+  cap.hidden = !st.showMarkers;
+  const marked = here().length > 0;
+  cap.classList.toggle('is-on', marked);
+  cap.textContent = marked
+    ? f.markerNote
+    : slices.length
+      ? `No region markers on this image. Marked in this series: image ${slices.map((i) => i + 1).join(', ')}.`
+      : 'No region markers in this series.';
+
+  const key = `${st.s.id}/${st.focus}/${st.showMarkers}`;
+  if (key === jumpKey) return;
+  jumpKey = key;
+  const box = $('marker-jumps');
+  box.innerHTML = '';
+  if (!st.showMarkers) return;
+  if (!inSeries.length) {
+    const p = document.createElement('p');
+    p.className = 'fineprint';
+    p.textContent = 'No region markers in this series. They are on PI PD FS sag, PI PD FS COR and T1 sag.';
+    box.append(p);
+    return;
+  }
+  for (const m of inSeries) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'marker-jump';
+    b.setAttribute('aria-pressed', String(st.focus === m.finding));
+    const im = document.createElement('span');
+    im.className = 'mono';
+    im.textContent = `Im ${m.slice + 1}`;
+    b.append(im, f.byId.get(m.finding).title);
+    b.addEventListener('click', () => {
+      const same = st.focus === m.finding && st.i === m.slice;
+      st.focus = same ? null : m.finding;
+      st.i = m.slice;
+      syncUi();
+      schedule();
+    });
+    box.append(b);
+  }
 }
 
 function subPlane() {
@@ -311,6 +427,7 @@ function syncUi() {
     error: `Volume unavailable (${st.volError}). Images stay at the default window.`,
   }[st.volState];
   for (const id of ['wc-range', 'ww-range', 'wc-num', 'ww-num']) $(id).disabled = failed;
+  syncMarkers();
 }
 
 // ---- Controls ----
@@ -343,6 +460,12 @@ function bindControls() {
   $('wl-reset').addEventListener('click', resetWindow);
   $('scale-toggle').addEventListener('change', schedule);
   $('orient-toggle').addEventListener('change', schedule);
+  $('marker-toggle').addEventListener('change', (e) => {
+    st.showMarkers = e.target.checked;
+    if (!st.showMarkers) st.focus = null;
+    syncUi();
+    schedule();
+  });
 
   document.addEventListener('keydown', (e) => {
     if (!st.active || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -356,6 +479,7 @@ function bindControls() {
       Home: () => setSlice(0), End: () => setSlice(n - 1),
       '+': () => zoomAt(1.25), '=': () => zoomAt(1.25), '-': () => zoomAt(0.8), '0': fit,
       r: resetWindow, R: resetWindow,
+      m: () => $('marker-toggle').click(), M: () => $('marker-toggle').click(),
     };
     const fn = actions[e.key];
     if (fn) { e.preventDefault(); fn(); }

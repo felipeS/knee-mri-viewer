@@ -28,6 +28,15 @@ Each series folder `data/<id>/` contains:
 
 Do not ship or reference any DICOM files. Do not read anything outside this repository.
 
+## Findings sidecar
+
+`data/findings.json` holds a plain-language paraphrase of the written report and the approximate region markers. It is the single source for the Findings view, the marker overlay in the slice viewer, and the report cues in the schematic and the flexion model.
+
+- `impression`, `findings`, `compartments`, `unremarkable`: paraphrased text only. Never paste report text verbatim, and never add names, dates (exam or comparison), IDs, or institution text.
+- `findings[].markers[]`: `series` (id), `slice` (0-based index), `x`, `y` (centre, as column / cols and row / rows, 0 to 1 from the top left), `rx`, `ry` (half-axes as a fraction of image width / height), `label`, `side` (where the label sits).
+- Markers are orientation aids placed by hand on the anonymized WebP slices. They are not annotations by the radiologist and not a tracing of any finding; keep that caption wherever they are drawn.
+- `schematic` maps the anatomy drawing's structure ids to `mentioned` / `normal` / `none` with one line of paraphrase; `findings[].model.key` names the highlight group in the flexion model.
+
 ## Window/level
 
 Start at `defaultWindowCenter` / `defaultWindowWidth`. Decode `volume.u16.gz` with `DecompressionStream("gzip")` (no extra library required) when the user adjusts W/L, and redraw the current slice from the compact volume (upscale to the view). Wheel or a slider changes slice index; typical PACS mapping is vertical drag for center and horizontal drag for width (or a modifier + drag). Also keep zoom (wheel+modifier or pinch) and pan.

@@ -35,6 +35,9 @@
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5L7 4.5Z"/></symbol>
   <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
   <symbol id="i-rotate" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="3.6"/><path d="M12 3v18"/><path d="m15.5 17.8 2.3-2.6-3.3-.7"/></symbol>
+  <symbol id="i-report" viewBox="0 0 24 24"><path d="M6.5 3h8l4 4v14h-12V3Z"/><path d="M14.5 3v4h4"/><path d="M9.5 12h6M9.5 15.5h6M9.5 8.5h2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" stroke-dasharray="3.4 2.6"/><path d="M12 11.7v.6"/></symbol>
   <symbol id="i-open" viewBox="0 0 24 24"><path d="M5 12h13"/><path d="m13 6.5 5.5 5.5-5.5 5.5"/></symbol>
 </svg>
 
@@ -47,6 +50,7 @@
     </div>
     <nav class="nav" aria-label="Views">
       <a href="#slices" data-view="slices"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-stack"/></svg><span>Slices</span></a>
+      <a href="#findings" data-view="findings"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-report"/></svg><span>Findings</span></a>
       <a href="#mpr" data-view="mpr"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cube"/></svg><span>MPR / 3D</span></a>
       <a href="#anatomy" data-view="anatomy"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-joint"/></svg><span>Anatomy</span></a>
       <a href="#motion" data-view="motion"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flex"/></svg><span>Flexion</span></a>
@@ -59,9 +63,9 @@
 </header>
 
 <p class="about">
-  An anonymized MRI study of a left knee. Some tissue was removed in a prior surgery; there are no implants.
-  This tool only helps the owner understand normal knee anatomy and how to look through their own images while waiting for the Befund.
-  Nothing here marks or interprets a finding.
+  An anonymized MRI study of a left knee. Background from the owner, not from the report: some tissue was removed in a prior surgery; there are no implants.
+  This tool helps the owner understand knee anatomy, look through their own images, and read a plain-language paraphrase of the written report under <a href="#findings">Findings</a>.
+  It is not medical advice. Rings on the images are approximate region markers for orientation, not the radiologist's annotations; interpreting the report belongs to the treating doctor.
 </p>
 
 <main id="main">
@@ -89,6 +93,7 @@
         <span class="orient orient-r" id="orient-r"></span>
         <div class="stage-msg" id="stage-msg" hidden></div>
       </div>
+      <p class="marker-caption" id="marker-caption" hidden></p>
       <div class="slice-row">
         <button class="icon-btn" id="slice-prev" type="button" aria-label="Previous slice"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-prev"/></svg></button>
         <input type="range" id="slice-range" min="1" max="1" step="1" value="1" aria-label="Slice">
@@ -140,6 +145,16 @@
         <label class="check"><input type="checkbox" id="orient-toggle" checked><span>Orientation letters</span></label>
       </div>
 
+      <div class="group" id="marker-group" hidden>
+        <h2 class="eyebrow">Report regions</h2>
+        <label class="check"><input type="checkbox" id="marker-toggle" checked><span>Findings markers</span></label>
+        <div class="marker-jumps" id="marker-jumps"></div>
+        <p class="fineprint">
+          Approximate region markers, placed for orientation. They are not annotations by the radiologist and not a tracing of the finding.
+          <a href="#findings">Read the findings</a>
+        </p>
+      </div>
+
       <details class="group keys">
         <summary class="eyebrow">Mouse, touch and keys</summary>
         <dl>
@@ -154,9 +169,28 @@
           <dt>Home / End</dt><dd>first / last slice</dd>
           <dt>+ &minus; 0</dt><dd>zoom in, out, fit</dd>
           <dt>R</dt><dd>reset window</dd>
+          <dt>M</dt><dd>show / hide findings markers</dd>
         </dl>
       </details>
     </aside>
+  </section>
+
+  <!-- Findings: paraphrase of the written report -->
+  <section class="view view-findings" id="view-findings" hidden>
+    <div class="view-head">
+      <h2>Findings from the written report</h2>
+      <p class="notice" role="note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg>
+        <span>
+          <strong>This is not a diagnosis. Wait for the radiologist's report (Befund) and talk to your doctor.</strong>
+          This site is not medical advice. The interpretation of the report belongs to the treating doctor.
+        </span>
+      </p>
+      <p>The wording below paraphrases the written radiology report (Befund). It is not a substitute for that report or for a conversation with the doctor.</p>
+    </div>
+    <div class="findings-root" id="findings-root">
+      <p class="f-muted">Loading the findings&hellip;</p>
+    </div>
   </section>
 
   <!-- 2. MPR / 3D -->
@@ -217,8 +251,13 @@
     <div class="view-head">
       <h2>Schematic &mdash; not a reading of this scan</h2>
       <p>
-        Simplified drawings of a generic knee, for learning the names. Shapes and positions are approximate.
-        They are not traced from these images and say nothing about this knee. Select a structure to read what it does and where to look for it.
+        Simplified drawings of a generic knee, for learning the names. Shapes and positions are approximate and are not traced from these images.
+        Select a structure to read what it does and where to look for it.
+      </p>
+      <p class="report-legend" id="report-legend" hidden>
+        <span class="lg lg-mentioned"><i></i>Amber outline: mentioned in the written report</span>
+        <span class="lg lg-normal"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>No outline: reported as unremarkable, or not described separately</span>
+        <span class="lg-note">These cues repeat the report's text. They are not a reading of the images by this site.</span>
       </p>
     </div>
 
@@ -227,6 +266,7 @@
         <figcaption><span class="eyebrow">Side view (sagittal)</span><span class="schema-tag">Schematic, approximate</span></figcaption>
         <svg id="svg-sag" viewBox="0 0 460 540" role="img" aria-label="Schematic side view of a generic knee">
           <path class="st tendon" data-s="quad-tendon" d="M152,0 L176,0 L146,172 L126,166 Z"/>
+          <path class="st fluid" data-s="joint-fluid" d="M162,100 C172,90 190,96 193,114 L193,150 C177,166 165,192 161,222 L154,222 Q158,196 151,172 Q155,138 162,100 Z"/>
           <path class="st bone" data-s="femur" d="M195,0 L195,150 C168,172 152,212 166,252 C182,296 236,312 278,296 C318,280 328,238 312,200 C302,180 284,166 277,150 L277,0 Z"/>
           <path class="st cart" data-s="cartilage" d="M163,222 C160,240 163,246 166,252 C182,296 236,312 278,296 C304,286 318,262 319,236"/>
           <path class="st bone" data-s="fibula" d="M306,356 C320,352 330,360 328,374 C326,386 320,392 318,404 L314,540 L298,540 L300,404 C298,390 296,366 306,356 Z"/>
@@ -236,9 +276,11 @@
           <path class="st men" data-s="meniscus-medial meniscus-lateral" d="M316,320 L316,296 Q296,311 276,320 Z"/>
           <path class="st lig" data-s="pcl" d="M230,258 C262,270 296,292 311,326" style="--w:9"/>
           <path class="st lig" data-s="acl" d="M288,244 C262,268 228,300 204,322" style="--w:8"/>
+          <path class="st fat" data-s="hoffa" d="M143,250 L161,246 C161,264 164,282 168,297 L168,322 L165,322 Z"/>
           <path class="st tendon" data-s="patellar-tendon" d="M124,244 L141,247 L186,386 L174,398 Z"/>
           <ellipse class="st bone" data-s="patella" cx="134" cy="208" rx="17" ry="40" transform="rotate(-6 134 208)"/>
           <path class="st cart" data-s="cartilage" d="M149,176 Q157,208 150,240"/>
+          <circle class="report-ring" cx="134" cy="250" r="15"/>
           <g class="labels"></g>
           <text class="side" x="10" y="530">ANTERIOR (FRONT)</text>
           <text class="side" x="450" y="530" text-anchor="end">POSTERIOR (BACK)</text>
@@ -334,6 +376,16 @@
           <label class="check"><input type="checkbox" id="flex-ghost" checked><span>See-through bones</span></label>
         </div>
 
+        <div class="flex-report" id="flex-report" hidden>
+          <h3 class="eyebrow">Mentioned in the written report</h3>
+          <div class="chips" id="flex-report-chips" role="group" aria-label="Highlight a structure the report mentions"></div>
+          <p class="fineprint">
+            Highlights show where a structure sits on this generic model. It is still not this knee, and the highlight shows nothing about the finding itself.
+            <a href="#findings">Read the findings</a>
+          </p>
+          <p class="report-ok"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg><span id="flex-report-normal"></span></p>
+        </div>
+
         <ul class="notes">
           <li>The femur is held still; the tibia swings beneath it.</li>
           <li>As the knee bends, the femur's contact rolls and glides toward the back of the tibia, and the menisci shift back with it, the lateral one further.</li>
@@ -346,6 +398,7 @@
 
 <footer class="foot">
   <p>This is not a diagnosis. Wait for the radiologist's report (Befund) and talk to your doctor.</p>
+  <p>Not medical advice. The Findings page paraphrases the written report; its interpretation belongs to the treating doctor.</p>
   <p>Runs entirely in this browser. No tracking, no analytics, no external requests.</p>
 </footer>
 

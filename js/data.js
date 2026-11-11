@@ -12,6 +12,27 @@ export async function loadManifest() {
   return m;
 }
 
+// ---- Report paraphrase and approximate region markers ----
+
+let findingsPromise = null;
+
+/** Promise of data/findings.json with `byId` and a flat `markers` list added. Cached, failures too. */
+export function loadFindings() {
+  findingsPromise ??= (async () => {
+    const res = await fetch('data/findings.json');
+    if (!res.ok) throw new Error(`findings.json: HTTP ${res.status}`);
+    const f = await res.json();
+    f.byId = new Map(f.findings.map((x) => [x.id, x]));
+    f.markers = f.findings.flatMap((x) => x.markers.map((m) => ({ ...m, finding: x.id })));
+    return f;
+  })();
+  return findingsPromise;
+}
+
+/** Markers placed on one image of one series. */
+export const markersOn = (f, seriesId, slice) =>
+  f.markers.filter((m) => m.series === seriesId && m.slice === slice);
+
 // ---- Slice images (8-bit WebP at the scanner default window) ----
 
 const images = new Map();

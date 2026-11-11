@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "source": "Plain-language paraphrase of the written radiology report (Befund) for this anonymized left-knee MRI. It is not the report itself and contains no identifiers and no dates.",
+  "markerNote": "Approximate region markers, placed for orientation. They are not annotations by the radiologist and not a tracing of the finding.",
+  "coordinateSpace": "Marker x = column / columns and y = row / rows of the slice image (0 to 1, origin top left). rx and ry are half-axes as a fraction of image width and height. slice is a 0-based index into the series.",
+  "study": {
+    "summary": "MRI of the left knee without contrast agent, compared with a previous examination.",
+    "sequences": "PD fat-sat in three planes (sagittal, coronal, axial), T1 sagittal, and a T2 series angled along the anterior cruciate ligament (VKB). These are the series shown on this site.",
+    "history": "No clinical history was provided with the request."
+  },
+  "impression": [
+    {
+      "text": "Moderate joint effusion with mild irritation of Hoffa's fat pad.",
+      "findings": ["effusion", "hoffa"]
+    },
+    {
+      "text": "Meniscopathy of the posterior horn of the medial meniscus without a visible tear, plus mild meniscopathy of the lateral meniscus.",
+      "findings": ["meniscus-medial", "meniscus-lateral"]
+    },
+    {
+      "text": "Mild irritation at the proximal insertion of the patellar tendon.",
+      "findings": ["patellar-tendon"]
+    }
+  ],
+  "findings": [
+    {
+      "id": "effusion",
+      "title": "Joint effusion",
+      "german": "Gelenkerguss",
+      "grade": "moderate, described as reactive",
+      "compartment": "Patellofemoral compartment",
+      "report": "The report describes a moderate, reactive joint effusion.",
+      "means": "An effusion is extra fluid inside the joint. A knee normally holds only a thin film of lubricating fluid; the report grades the amount here as moderate. \"Reactive\" is the radiologist's description: in general it means the fluid is understood as the joint's response to irritation. What it is a response to in this knee is a question for the treating doctor.",
+      "where": "On PD fat-sat images fluid is bright. The marker sits over the space above and behind the patella, where joint fluid typically collects, on a mid-sagittal image.",
+      "schematic": "joint-fluid",
+      "model": { "key": "joint-fluid", "label": "Joint fluid space" },
+      "markers": [
+        { "series": "pi-pd-fs-sag", "slice": 16, "x": 0.245, "y": 0.285, "rx": 0.055, "ry": 0.115, "label": "joint fluid region", "side": "right" }
+      ]
+    },
+    {
+      "id": "hoffa",
+      "title": "Hoffa's fat pad",
+      "german": "Hoffa-Fettkörper",
+      "grade": "mild irritation",
+      "compartment": "Patellofemoral compartment",
+      "report": "The report describes mild irritation of Hoffa's fat pad.",
+      "means": "Hoffa's fat pad is a cushion of fat at the front of the joint, just behind the patellar tendon and below the patella. The report describes mild irritation of it, and in its summary lists this together with the effusion.",
+      "where": "The marker sits over the fat pad on a mid-sagittal image: behind the patellar tendon, between the lower tip of the patella and the front of the tibia. The T1 sagittal series shows the same region with fat bright.",
+      "schematic": "hoffa",
+      "model": { "key": "hoffa", "label": "Hoffa's fat pad" },
+      "markers": [
+        { "series": "pi-pd-fs-sag", "slice": 16, "x": 0.275, "y": 0.465, "rx": 0.06, "ry": 0.05, "label": "Hoffa's fat pad", "side": "right" },
+        { "series": "t1-sag", "slice": 16, "x": 0.275, "y": 0.462, "rx": 0.06, "ry": 0.05, "label": "Hoffa's fat pad", "side": "right" }
+      ]
+    },
+    {
+      "id": "meniscus-medial",
+      "title": "Medial meniscus, posterior horn",
+      "german": "Innenmeniskus, Hinterhorn",
+      "grade": "meniscopathy, no visible tear",
+      "compartment": "Medial compartment",
+      "report": "The report describes meniscopathy of the posterior horn of the medial meniscus, without a visible tear.",
+      "means": "Meniscopathy is a general term for a change in the substance of the meniscus as it appears on MRI. The posterior horn is the back part of the C-shaped inner meniscus. The report states explicitly that no tear is visible.",
+      "where": "On a side view through the inner half of the knee the posterior horn is the dark wedge at the back of the joint line. On the front view the inner side of this left knee is on the left of the image.",
+      "schematic": "meniscus-medial",
+      "model": { "key": "meniscus-medial", "label": "Medial meniscus" },
+      "markers": [
+        { "series": "pi-pd-fs-sag", "slice": 24, "x": 0.635, "y": 0.537, "rx": 0.05, "ry": 0.042, "label": "medial meniscus, posterior horn", "side": "bottom" },
+        { "series": "pi-pd-fs-cor", "slice": 21, "x": 0.285, "y": 0.557, "rx": 0.05, "ry": 0.042, "label": "medial meniscus", "side": "bottom" }
+      ]
+    },
+    {
+      "id": "meniscus-lateral",
+      "title": "Lateral meniscus",
+      "german": "Außenmeniskus",
+      "grade": "mild meniscopathy",
+      "compartment": "Lateral compartment",
+      "report": "The report describes mild meniscopathy of the lateral meniscus.",
+      "means": "The same term, applied to the outer meniscus and graded mild: a change in the substance of the meniscus as it appears on MRI. The report does not single out a part of the lateral meniscus and does not mention a tear.",
+      "where": "On the front view the outer side of this left knee is on the right of the image. A side view through the outer half of the knee shows the front and back parts of the lateral meniscus as two dark wedges on the joint line.",
+      "schematic": "meniscus-lateral",
+      "model": { "key": "meniscus-lateral", "label": "Lateral meniscus" },
+      "markers": [
+        { "series": "pi-pd-fs-cor", "slice": 21, "x": 0.725, "y": 0.552, "rx": 0.05, "ry": 0.042, "label": "lateral meniscus", "side": "bottom" },
+        { "series": "pi-pd-fs-sag", "slice": 10, "x": 0.5, "y": 0.525, "rx": 0.135, "ry": 0.045, "label": "lateral meniscus", "side": "bottom" }
+      ]
+    },
+    {
+      "id": "patellar-tendon",
+      "title": "Patellar tendon, proximal insertion",
+      "german": "Patellarsehne, proximaler Ansatz",
+      "grade": "mild irritation",
+      "compartment": "Patellofemoral compartment",
+      "report": "The report describes mild irritation at the proximal (upper) insertion of the patellar tendon.",
+      "means": "The patellar tendon runs from the lower tip of the patella to the front of the tibia. Its proximal insertion is the upper end, where the tendon meets the lower tip of the patella. The report describes mild irritation there. The quadriceps tendon, above the patella, is described as unremarkable.",
+      "where": "The marker sits at the lower tip of the patella on a mid-sagittal image. The T1 sagittal series gives a clear side view of the tendon as a dark band.",
+      "schematic": "patellar-tendon",
+      "model": { "key": "patellar-tendon", "label": "Patellar tendon, upper end" },
+      "markers": [
+        { "series": "pi-pd-fs-sag", "slice": 16, "x": 0.182, "y": 0.503, "rx": 0.034, "ry": 0.034, "label": "tendon insertion, upper end", "side": "bottom" },
+        { "series": "t1-sag", "slice": 16, "x": 0.182, "y": 0.497, "rx": 0.034, "ry": 0.034, "label": "tendon insertion, upper end", "side": "bottom" }
+      ]
+    }
+  ],
+  "compartments": [
+    {
+      "name": "Medial compartment",
+      "hint": "inner side of the knee",
+      "items": [
+        { "name": "Cartilage", "status": "normal", "text": "unremarkable" },
+        { "name": "Medial meniscus (Innenmeniskus)", "status": "mentioned", "text": "meniscopathy of the posterior horn, without a visible tear", "finding": "meniscus-medial" },
+        { "name": "Medial collateral ligament (Innenband)", "status": "normal", "text": "intact" }
+      ]
+    },
+    {
+      "name": "Lateral compartment",
+      "hint": "outer side of the knee",
+      "items": [
+        { "name": "Cartilage", "status": "normal", "text": "unremarkable" },
+        { "name": "Lateral meniscus (Außenmeniskus)", "status": "mentioned", "text": "mild meniscopathy", "finding": "meniscus-lateral" },
+        { "name": "Lateral collateral ligament (Außenband)", "status": "normal", "text": "intact" },
+        { "name": "Attachments of the iliotibial tract (Tractus iliotibialis) and of biceps femoris", "status": "normal", "text": "unremarkable" },
+        { "name": "Popliteus tendon", "status": "normal", "text": "unremarkable" }
+      ]
+    },
+    {
+      "name": "Intercondylar notch",
+      "hint": "centre of the joint",
+      "items": [
+        { "name": "Anterior and posterior cruciate ligament (VKB, HKB)", "status": "normal", "text": "both unremarkable" }
+      ]
+    },
+    {
+      "name": "Patellofemoral compartment",
+      "hint": "front of the knee",
+      "items": [
+        { "name": "Alignment of the joint", "status": "normal", "text": "normal" },
+        { "name": "Cartilage", "status": "normal", "text": "unremarkable" },
+        { "name": "Quadriceps tendon", "status": "normal", "text": "unremarkable" },
+        { "name": "Patellar tendon (Patellarsehne)", "status": "mentioned", "text": "mild irritation at the proximal (upper) insertion", "finding": "patellar-tendon" },
+        { "name": "Patellar retinacula (holding apparatus)", "status": "normal", "text": "intact" },
+        { "name": "Hoffa's fat pad", "status": "mentioned", "text": "mild irritation", "finding": "hoffa" },
+        { "name": "Joint fluid", "status": "mentioned", "text": "moderate reactive effusion", "finding": "effusion" }
+      ]
+    },
+    {
+      "name": "Other",
+      "hint": "",
+      "items": [
+        { "name": "Incidental findings", "status": "normal", "text": "none" }
+      ]
+    }
+  ],
+  "unremarkable": [
+    "Cartilage in the medial, lateral and patellofemoral compartments: unremarkable",
+    "Medial collateral ligament (MCL, Innenband): intact",
+    "Lateral collateral ligament (LCL, Außenband): intact",
+    "Attachment of the iliotibial tract (IT band): unremarkable",
+    "Attachment of biceps femoris: unremarkable",
+    "Popliteus tendon: unremarkable",
+    "Anterior cruciate ligament (ACL, VKB): unremarkable",
+    "Posterior cruciate ligament (PCL, HKB): unremarkable",
+    "Patellofemoral alignment: normal",
+    "Quadriceps tendon: unremarkable",
+    "Patellar retinacula (holding apparatus): intact",
+    "No incidental findings"
+  ],
+  "schematic": {
+    "acl": { "status": "normal", "text": "Both cruciate ligaments are described as unremarkable." },
+    "pcl": { "status": "normal", "text": "Both cruciate ligaments are described as unremarkable." },
+    "meniscus-medial": { "status": "mentioned", "finding": "meniscus-medial", "text": "Meniscopathy of the posterior horn, without a visible tear." },
+    "meniscus-lateral": { "status": "mentioned", "finding": "meniscus-lateral", "text": "Mild meniscopathy." },
+    "cartilage": { "status": "normal", "text": "Cartilage is described as unremarkable in the medial, lateral and patellofemoral compartments." },
+    "patella": { "status": "normal", "text": "The alignment of the patellofemoral joint is described as normal and its cartilage as unremarkable. The bone itself is not described separately." },
+    "quad-tendon": { "status": "normal", "text": "Described as unremarkable." },
+    "patellar-tendon": { "status": "mentioned", "finding": "patellar-tendon", "text": "Mild irritation at the proximal (upper) insertion, where the tendon meets the lower tip of the patella." },
+    "hoffa": { "status": "mentioned", "finding": "hoffa", "text": "Mild irritation." },
+    "joint-fluid": { "status": "mentioned", "finding": "effusion", "text": "Moderate joint effusion, described as reactive." },
+    "mcl": { "status": "normal", "text": "Described as intact." },
+    "lcl": { "status": "normal", "text": "Described as intact." },
+    "femur": { "status": "none", "text": "Not described separately. The report notes no incidental findings." },
+    "tibia": { "status": "none", "text": "Not described separately. The report notes no incidental findings." },
+    "fibula": { "status": "none", "text": "Not described separately. The report notes no incidental findings." }
+  },
+  "modelNormal": "Reported as unremarkable or intact: both cruciate ligaments, MCL, LCL, quadriceps tendon, cartilage, and the alignment of the patella."
+}

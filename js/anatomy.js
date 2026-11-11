@@ -1,5 +1,9 @@
 // Anatomy explainer: generic schematics, plain-language notes, jump to a relevant series.
-// Everything here describes a generic knee. Nothing is derived from, or marked on, the images.
+// The drawings describe a generic knee and are not derived from the images. Which structures
+// the written report mentions (or calls unremarkable) comes from data/findings.json, i.e. from
+// the report paraphrase, not from any reading of the scan here.
+
+import { loadFindings } from './data.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -70,6 +74,22 @@ const STRUCTURES = [
     series: 't1-sag', frac: 0.5,
   },
   {
+    id: 'hoffa', name: 'Hoffa\'s fat pad', short: 'Hoffa\'s fat pad',
+    aka: 'Hoffa-Fettkörper, the infrapatellar fat pad.',
+    does: 'A cushion of fat at the front of the joint, tucked behind the patellar tendon and below the patella. It fills the space that opens and closes as the knee bends and helps the surfaces glide.',
+    mri: 'Fat is bright on T1 images and dark on fat-saturated images, so the pad looks different in the two sagittal series.',
+    look: 'Mid-sagittal images, just behind the patellar tendon. Compare T1 and PD fat-sat at the same position.',
+    series: 'pi-pd-fs-sag', frac: 0.5,
+  },
+  {
+    id: 'joint-fluid', name: 'Joint space and fluid', short: 'Joint fluid',
+    aka: 'Gelenkflüssigkeit. Extra fluid in the joint is called an effusion (Gelenkerguss).',
+    does: 'The joint is enclosed by a capsule whose lining makes a thin film of lubricating fluid. The capsule has a pouch that extends upward behind the quadriceps tendon, above the patella; when there is more fluid than usual, it tends to collect there.',
+    mri: 'Fluid is bright on proton-density fat-saturated images, which is one reason those series are used.',
+    look: 'Mid-sagittal PD fat-sat images, above and behind the patella.',
+    series: 'pi-pd-fs-sag', frac: 0.5,
+  },
+  {
     id: 'mcl', name: 'Medial collateral ligament', short: 'MCL',
     aka: 'MCL. Innenband.',
     does: 'A broad, flat band along the inner side of the knee, from femur to tibia. It resists the knee buckling inward.',
@@ -115,7 +135,9 @@ const STRUCTURES = [
 const LABELS = {
   'svg-sag': [
     { s: 'quad-tendon', t: 'Quadriceps tendon', x: 8, y: 64, to: [153, 60] },
+    { s: 'joint-fluid', t: 'Joint space (fluid)', x: 8, y: 134, to: [172, 138] },
     { s: 'patella', t: 'Patella', x: 8, y: 204, to: [119, 200] },
+    { s: 'hoffa', t: 'Hoffa\'s fat pad', x: 8, y: 270, to: [153, 268] },
     { s: 'patellar-tendon', t: 'Patellar tendon', x: 8, y: 322, to: [150, 318] },
     { s: 'femur', t: 'Femur', x: 452, y: 64, to: [277, 60], end: true },
     { s: 'cartilage', t: 'Cartilage', x: 452, y: 214, to: [322, 222], end: true },
@@ -141,6 +163,7 @@ const LABELS = {
 };
 
 let api, manifest, selected = null;
+let report = null; // findings.json, once loaded
 const byId = new Map(STRUCTURES.map((s) => [s.id, s]));
 
 export function init(m, appApi) {
@@ -201,11 +224,31 @@ export function init(m, appApi) {
   }
 
   select('acl');
+
+  // Report cues are an optional layer: without findings.json the view stays generic.
+  loadFindings().then(applyReport).catch((err) => console.warn(err));
 }
 
 export function setActive() {}
 
-function select(id) {
+/** Mark what the written report mentions; leave everything else looking normal. */
+function applyReport(f) {
+  report = f;
+  const view = document.querySelector('.view-anatomy');
+  view.classList.add('has-report');
+  const status = (id) => f.schematic[id]?.status;
+  view.querySelectorAll('.schema [data-s]').forEach((el) => {
+    if (el.dataset.s.split(' ').some((id) => status(id) === 'mentioned')) el.classList.add('is-reported');
+  });
+  document.querySelectorAll('#struct-list button').forEach((b) => {
+    const s = status(b.dataset.s);
+    if (s === 'mentioned' || s === 'normal') b.dataset.report = s;
+  });
+  document.getElementById('report-legend').hidden = false;
+  if (selected) select(selected);
+}
+
+export function select(id) {
   const s = byId.get(id);
   if (!s) return;
   selected = id;
@@ -227,6 +270,28 @@ function select(id) {
   };
   add('h3', s.name);
   add('p', s.aka, 'aka');
+
+  const r = report?.schematic[id];
+  if (r) {
+    const box = document.createElement('div');
+    box.className = `report-line is-${r.status}`;
+    const head = document.createElement('h4');
+    head.className = 'eyebrow';
+    head.textContent = { mentioned: 'Mentioned in the written report', normal: 'Reported as unremarkable', none: 'In the written report' }[r.status];
+    const p = document.createElement('p');
+    p.textContent = r.text;
+    box.append(head, p);
+    if (r.finding) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'text-btn';
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-report"/></svg>';
+      b.append('Read this in Findings');
+      b.addEventListener('click', () => api.showFinding(r.finding));
+      box.append(b);
+    }
+    card.append(box);
+  }
   add('h4', 'What it does', 'eyebrow');
   add('p', s.does);
   add('h4', 'Why MRI looks at it', 'eyebrow');
@@ -245,5 +310,7 @@ function select(id) {
     b.addEventListener('click', () => api.openInViewer(series.id, index));
     card.append(b);
   }
-  add('p', 'General anatomy only. This says nothing about what these images show; that is for the radiologist’s report.', 'fineprint');
+  add('p', report
+    ? 'General anatomy, plus one line paraphrased from the written report. Nothing here was read from the images by this site; interpreting the report belongs to the treating doctor.'
+    : 'General anatomy only. This says nothing about what these images show; that is for the radiologist’s report.', 'fineprint');
 }

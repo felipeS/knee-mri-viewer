@@ -6,13 +6,14 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from '../vendor/OrbitControls.js';
+import { loadFindings } from './data.js';
 
 const $ = (id) => document.getElementById(id);
 const DEG = Math.PI / 180;
 const MAX = 140;
 const ROLLBACK = 0.8; // how far the femoral contact moves back on the tibia at full flexion
 
-const COL = { bone: 0xd8d2c4, soft: 0x7e868d, hi: 0xe3a548 };
+const COL = { bone: 0xd8d2c4, soft: 0x7e868d, fat: 0x8a836c, hi: 0xe3a548 };
 
 // Patella rides a circle around this centre; its lower pole stays one tendon length from the tibia.
 const PAT_C = new THREE.Vector3(0, 0.3, 0);
@@ -34,6 +35,8 @@ const ATTACH = {
 let renderer, scene, camera, controls;
 let tibia, tibiaInner, patella, meniscusM, meniscusL;
 let bands = {}, quadTube, patTube, tendonLen;
+let hoffaPad, fluidPouch, insertionRing;
+let highlighted = null;
 let groups = {}, boneMat;
 let angle = 20, playing = false, playT = 0, lastTime = 0;
 let active = false, running = false, dirty = true, failed = false;
@@ -69,6 +72,27 @@ export function init() {
   setAngle(angle);
   bind();
   new ResizeObserver(resize).observe($('motion-stage'));
+
+  // Chips for what the written report mentions. The model itself stays generic.
+  loadFindings().then((f) => {
+    const box = $('flex-report-chips');
+    for (const x of f.findings) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.h = x.model.key;
+      b.textContent = x.model.label;
+      box.append(b);
+    }
+    $('flex-report-normal').textContent = f.modelNormal;
+    $('flex-report').hidden = false;
+    setHighlight(highlighted);
+  }).catch((err) => console.warn(err));
+}
+
+/** Highlight a group by key (used when arriving from the Findings view). */
+export function highlight(key) {
+  if (failed || !renderer) return;
+  setHighlight(key);
 }
 
 export function setActive(on) {
@@ -98,7 +122,11 @@ function build() {
   boneMat = mat(COL.bone);
   boneMat.transparent = true;
   const softMat = () => mat(COL.soft);
-  const reg = (name, ...meshes) => { groups[name] = (groups[name] ?? []).concat(meshes); return meshes[0]; };
+  const reg = (name, ...meshes) => {
+    groups[name] = (groups[name] ?? []).concat(meshes);
+    for (const m of meshes) m.userData.base ??= m.material.color.getHex();
+    return meshes[0];
+  };
 
   // Femur: two condyles, a block bridging them at the front, a flare and a shaft.
   const femur = new THREE.Group();
@@ -128,7 +156,7 @@ function build() {
 
   // Menisci: flattened C-shaped rings, open toward the centre of the joint.
   const ring = new THREE.TorusGeometry(1.45, 0.34, 14, 48, 300 * DEG);
-  const meniscus = (x, open) => {
+  const meniscus = (x, open, name) => {
     const g = new THREE.Group();
     const m = new THREE.Mesh(ring, softMat());
     m.rotation.set(Math.PI / 2, 0, open);
@@ -137,10 +165,11 @@ function build() {
     g.position.set(x, -2.0, 0);
     tibiaInner.add(g);
     reg('menisci', m);
+    reg(name, m);
     return g;
   };
-  meniscusM = meniscus(-2.45, 30 * DEG);
-  meniscusL = meniscus(2.45, 210 * DEG);
+  meniscusM = meniscus(-2.45, 30 * DEG, 'meniscus-medial');
+  meniscusL = meniscus(2.45, 210 * DEG, 'meniscus-lateral');
 
   // Ligament bands: unit cylinders stretched between two points every frame.
   const band = (name, group, radius, flat) => {
@@ -163,6 +192,22 @@ function build() {
   quadTube.scale.x = patTube.scale.x = 2.6; // widen the round tubes into straps
   scene.add(quadTube, patTube);
   reg('patella', patella, quadTube, patTube);
+
+  // Generic stand-ins for the soft-tissue places a report can name. Positions are schematic.
+  // The fat pad sits behind the patellar tendon and is always drawn; the fluid pouch and the
+  // ring around the tendon's upper end only appear while they are highlighted.
+  hoffaPad = part(new THREE.SphereGeometry(0.62, 24, 16), mat(COL.fat), null, [1.25, 0.85, 0.6]);
+  fluidPouch = part(new THREE.SphereGeometry(1, 28, 18), mat(COL.soft), [0, 4.3, 2.05], [1.7, 1.7, 0.32]);
+  fluidPouch.material.transparent = true;
+  fluidPouch.material.opacity = 0.6;
+  fluidPouch.material.depthWrite = false;
+  insertionRing = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.07, 10, 36), mat(COL.soft));
+  fluidPouch.userData.onlyHi = insertionRing.userData.onlyHi = true;
+  fluidPouch.visible = insertionRing.visible = false;
+  scene.add(hoffaPad, fluidPouch, insertionRing);
+  reg('hoffa', hoffaPad);
+  reg('joint-fluid', fluidPouch);
+  reg('patellar-tendon', patTube, insertionRing);
 
   tendonLen = polePoint(PAT_PHI0 - POLE_OFF).distanceTo(ATTACH.tuber);
 }
@@ -215,7 +260,14 @@ function setAngle(deg) {
   patella.position.copy(onCircle(PAT_R, phi));
   patella.rotation.x = -phi;
 
-  tube(patTube, [polePoint(polePhi), T], 0.26);
+  const pole = polePoint(polePhi);
+  tube(patTube, [pole, T], 0.26);
+  // Fat pad: behind the upper half of the tendon, pulled toward the front edge of the tibia.
+  hoffaPad.position.lerpVectors(pole, T, 0.4).lerp(world(new THREE.Vector3(0, -2.3, 1.4)), 0.45);
+  const along = new THREE.Vector3().subVectors(T, pole).normalize();
+  insertionRing.position.copy(pole).addScaledVector(along, 0.35);
+  insertionRing.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), along);
+  insertionRing.scale.set(1.9, 1, 1);
   // Quadriceps tendon wraps over the front of the femur before heading up the thigh.
   const top = phi + POLE_OFF;
   const wrapEnd = 40 * DEG;
@@ -248,13 +300,13 @@ function setCamera(view) {
 }
 
 function setHighlight(name) {
-  for (const [group, meshes] of Object.entries(groups)) {
-    for (const m of meshes) {
-      const base = m === patella ? COL.bone : COL.soft;
-      m.material.color.setHex(group === name ? COL.hi : base);
-    }
+  highlighted = name;
+  const on = new Set(groups[name] ?? []);
+  for (const m of new Set(Object.values(groups).flat())) {
+    m.material.color.setHex(on.has(m) ? COL.hi : m.userData.base);
+    if (m.userData.onlyHi) m.visible = on.has(m);
   }
-  document.querySelectorAll('#flex-chips button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.h === name)));
+  document.querySelectorAll('.motion-side [data-h]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.h === name)));
   dirty = true;
 }
 
@@ -278,10 +330,12 @@ function setPlaying(on) {
 function bind() {
   $('flex-range').addEventListener('input', (e) => { setPlaying(false); setAngle(+e.target.value); });
   $('flex-play').addEventListener('click', () => setPlaying(!playing));
-  $('flex-chips').addEventListener('click', (e) => {
-    const b = e.target.closest('button');
-    if (b) setHighlight(b.getAttribute('aria-pressed') === 'true' ? null : b.dataset.h);
-  });
+  for (const id of ['flex-chips', 'flex-report-chips']) {
+    $(id).addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (b) setHighlight(b.getAttribute('aria-pressed') === 'true' ? null : b.dataset.h);
+    });
+  }
   document.querySelectorAll('[data-cam]').forEach((b) => b.addEventListener('click', () => setCamera(b.dataset.cam)));
   $('flex-ghost').addEventListener('change', (e) => setGhost(e.target.checked));
   setGhost($('flex-ghost').checked);
