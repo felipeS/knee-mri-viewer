@@ -4,9 +4,10 @@ Static, client-side viewer for an anonymized left-knee MRI study. No patient ide
 
 **This is not a diagnosis. Wait for the radiologist's report (Befund) and talk to your doctor.**
 
-## Run locally
+## Open the site
 
-The site is static and needs a local HTTP server (fetch of `.gz` volumes will not work from `file://`):
+- Live page: https://felipes.github.io/knee-mri-viewer/
+- Or run locally (needed if you want to work offline; `file://` cannot fetch the `.gz` volumes):
 
 ```bash
 python3 -m http.server 8080
@@ -29,5 +30,3 @@ Then open http://127.0.0.1:8080/
 - `data/` anonymized derived assets, see `ASSETS.md`
 
 No build step, no external requests at runtime, relative paths only.
-
-Do not publish this repository unless the owner explicitly approves it. There is no remote.
