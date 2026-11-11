@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0a0b0c">
+<title>Left knee MRI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3a548' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M9.5 2v6.2a4 4 0 1 0 5 0V2M8 15.5h8M9.5 15.5V22M14.5 15.5V22'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js" } }
+</script>
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+
+<!-- Icon sprite: original line icons, 24px grid -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-stack" viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2.5 3.5 7v10l8.5 4.5 8.5-4.5V7L12 2.5Z"/><path d="M3.5 7 12 11.5 20.5 7M12 11.5v10"/></symbol>
+  <symbol id="i-joint" viewBox="0 0 24 24"><path d="M9.5 2v6.2a4 4 0 1 0 5 0V2"/><path d="M8 15.5h8"/><path d="M9.5 15.5V22M14.5 15.5V22"/></symbol>
+  <symbol id="i-flex" viewBox="0 0 24 24"><path d="M6 3v9"/><circle cx="6" cy="14.5" r="2.5"/><path d="m8.2 15.8 9.3 4.7"/><path d="M12 6a9.5 9.5 0 0 1 7.5 7.5"/><path d="m19.8 9.6-.3 3.9-3.8-.7"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5 2.5 20h19L12 3.5Z"/><path d="M12 10v4.5"/><path d="M12 17.2v.3"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="m7.5 7.5 4.5-4.5 4.5 4.5M7.5 16.5 12 21l4.5-4.5"/></symbol>
+  <symbol id="i-pan" viewBox="0 0 24 24"><path d="M12 2.5v19M2.5 12h19"/><path d="m9 5.5 3-3 3 3M9 18.5l3 3 3-3M5.5 9l-3 3 3 3M18.5 9l3 3-3 3"/></symbol>
+  <symbol id="i-window" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4.5V9h4.5"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5L7 4.5Z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="3.6"/><path d="M12 3v18"/><path d="m15.5 17.8 2.3-2.6-3.3-.7"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><path d="M5 12h13"/><path d="m13 6.5 5.5 5.5-5.5 5.5"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-joint"/></svg>
+      <h1>Left knee MRI</h1>
+      <span class="brand-meta">MR &middot; left knee &middot; anonymized</span>
+    </div>
+    <nav class="nav" aria-label="Views">
+      <a href="#slices" data-view="slices"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-stack"/></svg><span>Slices</span></a>
+      <a href="#mpr" data-view="mpr"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cube"/></svg><span>MPR / 3D</span></a>
+      <a href="#anatomy" data-view="anatomy"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-joint"/></svg><span>Anatomy</span></a>
+      <a href="#motion" data-view="motion"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-flex"/></svg><span>Flexion</span></a>
+    </nav>
+  </div>
+  <p class="disclaimer" role="note">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-alert"/></svg>
+    <span>This is not a diagnosis. Wait for the radiologist's report (Befund) and talk to your doctor.</span>
+  </p>
+</header>
+
+<p class="about">
+  An anonymized MRI study of a left knee. Some tissue was removed in a prior surgery; there are no implants.
+  This tool only helps the owner understand normal knee anatomy and how to look through their own images while waiting for the Befund.
+  Nothing here marks or interprets a finding.
+</p>
+
+<main id="main">
+  <div class="fatal" id="fatal" hidden></div>
+
+  <!-- 1. Slice viewer -->
+  <section class="view view-slices" id="view-slices" hidden>
+    <aside class="series" aria-label="Series">
+      <h2 class="eyebrow">Series</h2>
+      <ul id="series-list" class="series-list"></ul>
+    </aside>
+
+    <div class="stage-col">
+      <div class="stage" id="stage" tabindex="0" aria-label="Slice image. Scroll to change slice, drag to pan, right-drag or Ctrl-drag to adjust window.">
+        <canvas id="slice-canvas"></canvas>
+        <div class="hud hud-tl" id="hud-tl"></div>
+        <div class="hud hud-tr" id="hud-tr"></div>
+        <div class="hud hud-bl" id="hud-bl"></div>
+        <div class="hud hud-br">
+          <div class="scalebar" id="scalebar"><i></i><span></span></div>
+        </div>
+        <span class="orient orient-t" id="orient-t"></span>
+        <span class="orient orient-b" id="orient-b"></span>
+        <span class="orient orient-l" id="orient-l"></span>
+        <span class="orient orient-r" id="orient-r"></span>
+        <div class="stage-msg" id="stage-msg" hidden></div>
+      </div>
+      <div class="slice-row">
+        <button class="icon-btn" id="slice-prev" type="button" aria-label="Previous slice"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-prev"/></svg></button>
+        <input type="range" id="slice-range" min="1" max="1" step="1" value="1" aria-label="Slice">
+        <button class="icon-btn" id="slice-next" type="button" aria-label="Next slice"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-next"/></svg></button>
+        <output id="slice-out" class="mono" for="slice-range">1 / 1</output>
+      </div>
+    </div>
+
+    <aside class="panel" aria-label="Viewer controls">
+      <div class="group">
+        <h2 class="eyebrow">Drag tool</h2>
+        <div class="seg" id="tool-seg" role="group" aria-label="Drag tool">
+          <button type="button" data-tool="scroll"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-scroll"/></svg>Scroll</button>
+          <button type="button" data-tool="pan"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pan"/></svg>Pan</button>
+          <button type="button" data-tool="wl"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-window"/></svg>Window</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <h2 class="eyebrow">Zoom</h2>
+        <div class="row">
+          <button class="icon-btn" id="zoom-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-minus"/></svg></button>
+          <output class="mono zoom-out" id="zoom-val">100%</output>
+          <button class="icon-btn" id="zoom-in" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-plus"/></svg></button>
+          <button class="text-btn" id="zoom-fit" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-fit"/></svg>Fit</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <h2 class="eyebrow">Window / level</h2>
+        <label class="field">
+          <span>Center</span>
+          <input type="range" id="wc-range" min="0" max="1" step="1">
+          <input type="number" id="wc-num" class="mono" step="1" inputmode="numeric" aria-label="Window center value">
+        </label>
+        <label class="field">
+          <span>Width</span>
+          <input type="range" id="ww-range" min="1" max="2" step="1">
+          <input type="number" id="ww-num" class="mono" step="1" min="1" inputmode="numeric" aria-label="Window width value">
+        </label>
+        <div class="row">
+          <button class="text-btn" id="wl-reset" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-reset"/></svg>Reset window</button>
+        </div>
+        <p class="status mono" id="vol-status" aria-live="polite"></p>
+      </div>
+
+      <div class="group">
+        <label class="check"><input type="checkbox" id="scale-toggle" checked><span>Scale bar</span></label>
+        <label class="check"><input type="checkbox" id="orient-toggle" checked><span>Orientation letters</span></label>
+      </div>
+
+      <details class="group keys">
+        <summary class="eyebrow">Mouse, touch and keys</summary>
+        <dl>
+          <dt>Wheel</dt><dd>previous / next slice</dd>
+          <dt>Ctrl or Shift + wheel</dt><dd>zoom at the pointer</dd>
+          <dt>Drag</dt><dd>the selected drag tool</dd>
+          <dt>Right-drag, Ctrl-drag</dt><dd>window: sideways = width, up/down = center</dd>
+          <dt>Middle-drag</dt><dd>pan</dd>
+          <dt>Touch</dt><dd>swipe up/down for slices, pinch to zoom, two fingers to pan</dd>
+          <dt>Arrow keys</dt><dd>one slice</dd>
+          <dt>Page Up / Down</dt><dd>five slices</dd>
+          <dt>Home / End</dt><dd>first / last slice</dd>
+          <dt>+ &minus; 0</dt><dd>zoom in, out, fit</dd>
+          <dt>R</dt><dd>reset window</dd>
+        </dl>
+      </details>
+    </aside>
+  </section>
+
+  <!-- 2. MPR / 3D -->
+  <section class="view view-mpr" id="view-mpr" hidden>
+    <div class="view-head">
+      <h2>Three planes, cross-referenced</h2>
+      <p>
+        The sagittal, coronal and axial proton-density fat-saturated stacks, side by side. Click or drag in any pane to move the cursor;
+        the other two jump to the nearest slice. Lines show where the other two slices cut through each image.
+        <strong>Approximate:</strong> these are three separate acquisitions, positioned from each series' stored geometry. The knee can shift a little between scans, so the lines may be off by a few millimetres.
+      </p>
+    </div>
+    <div class="mpr-grid" id="mpr-grid"></div>
+
+    <div class="vol-block">
+      <div class="vol-stage" id="vol-stage">
+        <canvas id="vol-canvas" aria-label="Rotating 3D projection of one image stack. Drag to rotate."></canvas>
+        <div class="hud hud-tl" id="vol-hud"></div>
+        <div class="stage-msg" id="vol-msg" hidden></div>
+      </div>
+      <div class="vol-side">
+        <h2>The stack in 3D</h2>
+        <p>
+          A projection through one whole stack, computed live in the browser. Drag to rotate, wheel or pinch to zoom.
+          It is a way to see how the slices sit in space, not a diagnostic rendering: slices are 3&nbsp;mm thick, so the volume is coarse along the stacking direction.
+        </p>
+        <label class="field field-wide">
+          <span>Stack</span>
+          <select id="vol-series">
+            <option value="pi-pd-fs-tra">PD fat-sat, axial</option>
+            <option value="pi-pd-fs-sag">PD fat-sat, sagittal</option>
+          </select>
+        </label>
+        <div class="seg" id="vol-mode" role="group" aria-label="Projection">
+          <button type="button" data-mode="mip">Brightest voxel (MIP)</button>
+          <button type="button" data-mode="avg">Summed (X-ray-like)</button>
+        </div>
+        <label class="field">
+          <span>Black</span>
+          <input type="range" id="vol-lo" min="0" max="100" step="1">
+          <output class="mono" id="vol-lo-out"></output>
+        </label>
+        <label class="field">
+          <span>White</span>
+          <input type="range" id="vol-hi" min="1" max="100" step="1">
+          <output class="mono" id="vol-hi-out"></output>
+        </label>
+        <div class="row">
+          <button class="text-btn" id="vol-spin" type="button" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-rotate"/></svg>Auto-rotate</button>
+          <button class="text-btn" id="vol-reset" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-reset"/></svg>Reset view</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Anatomy -->
+  <section class="view view-anatomy" id="view-anatomy" hidden>
+    <div class="view-head">
+      <h2>Schematic &mdash; not a reading of this scan</h2>
+      <p>
+        Simplified drawings of a generic knee, for learning the names. Shapes and positions are approximate.
+        They are not traced from these images and say nothing about this knee. Select a structure to read what it does and where to look for it.
+      </p>
+    </div>
+
+    <div class="anat-grid">
+      <figure class="schema">
+        <figcaption><span class="eyebrow">Side view (sagittal)</span><span class="schema-tag">Schematic, approximate</span></figcaption>
+        <svg id="svg-sag" viewBox="0 0 460 540" role="img" aria-label="Schematic side view of a generic knee">
+          <path class="st tendon" data-s="quad-tendon" d="M152,0 L176,0 L146,172 L126,166 Z"/>
+          <path class="st bone" data-s="femur" d="M195,0 L195,150 C168,172 152,212 166,252 C182,296 236,312 278,296 C318,280 328,238 312,200 C302,180 284,166 277,150 L277,0 Z"/>
+          <path class="st cart" data-s="cartilage" d="M163,222 C160,240 163,246 166,252 C182,296 236,312 278,296 C304,286 318,262 319,236"/>
+          <path class="st bone" data-s="fibula" d="M306,356 C320,352 330,360 328,374 C326,386 320,392 318,404 L314,540 L298,540 L300,404 C298,390 296,366 306,356 Z"/>
+          <path class="st bone" data-s="tibia" d="M166,324 L318,324 C322,350 312,376 296,402 L288,540 L208,540 L206,446 C204,428 190,416 184,400 C172,376 166,350 166,324 Z"/>
+          <path class="st cart" data-s="cartilage" d="M170,322 L314,322"/>
+          <path class="st men" data-s="meniscus-medial meniscus-lateral" d="M168,320 L168,298 Q186,311 206,320 Z"/>
+          <path class="st men" data-s="meniscus-medial meniscus-lateral" d="M316,320 L316,296 Q296,311 276,320 Z"/>
+          <path class="st lig" data-s="pcl" d="M230,258 C262,270 296,292 311,326" style="--w:9"/>
+          <path class="st lig" data-s="acl" d="M288,244 C262,268 228,300 204,322" style="--w:8"/>
+          <path class="st tendon" data-s="patellar-tendon" d="M124,244 L141,247 L186,386 L174,398 Z"/>
+          <ellipse class="st bone" data-s="patella" cx="134" cy="208" rx="17" ry="40" transform="rotate(-6 134 208)"/>
+          <path class="st cart" data-s="cartilage" d="M149,176 Q157,208 150,240"/>
+          <g class="labels"></g>
+          <text class="side" x="10" y="530">ANTERIOR (FRONT)</text>
+          <text class="side" x="450" y="530" text-anchor="end">POSTERIOR (BACK)</text>
+        </svg>
+      </figure>
+
+      <figure class="schema">
+        <figcaption><span class="eyebrow">Front view of a left knee (coronal)</span><span class="schema-tag">Schematic, approximate</span></figcaption>
+        <svg id="svg-cor" viewBox="0 0 460 540" role="img" aria-label="Schematic front view of a generic left knee">
+          <path class="st bone" data-s="femur" d="M188,0 L188,140 C182,186 134,196 128,246 C124,284 150,302 182,300 C202,299 210,286 212,268 C214,252 246,252 248,268 C250,286 258,299 278,300 C310,302 336,284 332,246 C326,196 278,186 272,140 L272,0 Z"/>
+          <path class="st cart" data-s="cartilage" d="M131,268 C138,296 168,304 186,301 C200,299 208,290 211,277"/>
+          <path class="st cart" data-s="cartilage" d="M249,277 C252,290 260,299 274,301 C292,304 322,296 329,268"/>
+          <path class="st bone" data-s="fibula" d="M338,356 C352,352 360,362 358,376 C356,390 350,396 348,408 L340,540 L326,540 L330,408 C326,392 326,364 338,356 Z"/>
+          <path class="st bone" data-s="tibia" d="M126,326 L206,326 L218,310 L230,320 L242,310 L254,326 L334,326 C336,352 322,380 300,404 L278,540 L200,540 L176,404 C140,380 124,352 126,326 Z"/>
+          <path class="st cart" data-s="cartilage" d="M130,324 L204,324"/>
+          <path class="st cart" data-s="cartilage" d="M256,324 L330,324"/>
+          <path class="st men" data-s="meniscus-medial" d="M128,322 L128,299 Q150,311 172,322 Z"/>
+          <path class="st men" data-s="meniscus-lateral" d="M332,322 L332,299 Q310,311 288,322 Z"/>
+          <path class="st lig" data-s="mcl" d="M134,222 C126,270 132,330 150,402" style="--w:9"/>
+          <path class="st lig" data-s="lcl" d="M328,226 C338,270 344,320 346,358" style="--w:6"/>
+          <path class="st lig" data-s="pcl" d="M215,268 L238,320" style="--w:8"/>
+          <path class="st lig" data-s="acl" d="M245,266 L222,318" style="--w:7"/>
+          <path class="ghost" d="M204,0 L256,0 L260,172 L200,172 Z"/>
+          <path class="ghost" d="M212,252 L248,252 L243,394 L217,394 Z"/>
+          <ellipse class="st ghost-hit" data-s="patella" cx="230" cy="212" rx="40" ry="42"/>
+          <g class="labels"></g>
+          <text class="side" x="10" y="530">MEDIAL (INNER)</text>
+          <text class="side" x="450" y="530" text-anchor="end">LATERAL (OUTER)</text>
+        </svg>
+      </figure>
+
+      <div class="anat-info">
+        <div class="info-card" id="anat-info" aria-live="polite"></div>
+        <h3 class="eyebrow">All structures</h3>
+        <ul class="struct-list" id="struct-list"></ul>
+      </div>
+    </div>
+
+    <div class="orient-figs">
+      <figure>
+        <img id="orient-sag" alt="Left knee, sagittal PD fat-sat, middle image of the stack. Unannotated." loading="lazy">
+        <figcaption>Middle image of the sagittal stack, for orientation only: front of the knee is on the left, as in the side-view drawing. Unannotated. The drawing is a schematic, not a reading of this scan.</figcaption>
+      </figure>
+      <figure>
+        <img id="orient-cor" alt="Left knee, coronal PD fat-sat, middle image of the stack. Unannotated." loading="lazy">
+        <figcaption>Middle image of the coronal stack, for orientation only: seen from the front, outer side of the left knee on the right, as in the front-view drawing. Unannotated. The drawing is a schematic, not a reading of this scan.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 4. Flexion -->
+  <section class="view view-motion" id="view-motion" hidden>
+    <div class="view-head">
+      <h2>How a knee bends</h2>
+      <p>
+        <strong>A generic biomechanical model, not this patient's knee, and not a simulation of any injury.</strong>
+        Built from simple shapes to show the idea of the motion. Proportions, attachment points and the amount each part moves are simplified.
+      </p>
+    </div>
+    <div class="motion-grid">
+      <div class="motion-stage" id="motion-stage">
+        <canvas id="motion-canvas" aria-label="Interactive 3D model of a generic knee bending. Drag to rotate."></canvas>
+        <div class="hud hud-tl" id="motion-hud"></div>
+        <div class="stage-msg" id="motion-msg" hidden></div>
+      </div>
+      <div class="motion-side">
+        <div class="row row-play">
+          <button class="icon-btn icon-btn-lg" id="flex-play" type="button" aria-label="Play">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play" id="flex-play-icon"/></svg>
+          </button>
+          <label class="field field-angle">
+            <span>Flexion</span>
+            <input type="range" id="flex-range" min="0" max="140" step="1" value="20">
+            <output class="mono" id="flex-out">20&deg;</output>
+          </label>
+        </div>
+        <p class="phase" id="flex-phase"></p>
+
+        <h3 class="eyebrow">Highlight</h3>
+        <div class="chips" id="flex-chips" role="group" aria-label="Highlight a structure">
+          <button type="button" data-h="acl">ACL (VKB)</button>
+          <button type="button" data-h="pcl">PCL</button>
+          <button type="button" data-h="menisci">Menisci</button>
+          <button type="button" data-h="patella">Patella and tendons</button>
+          <button type="button" data-h="collaterals">MCL and LCL</button>
+        </div>
+
+        <h3 class="eyebrow">View</h3>
+        <div class="row">
+          <button class="text-btn" type="button" data-cam="side">Side</button>
+          <button class="text-btn" type="button" data-cam="front">Front</button>
+          <button class="text-btn" type="button" data-cam="back">Back</button>
+          <label class="check"><input type="checkbox" id="flex-ghost" checked><span>See-through bones</span></label>
+        </div>
+
+        <ul class="notes">
+          <li>The femur is held still; the tibia swings beneath it.</li>
+          <li>As the knee bends, the femur's contact rolls and glides toward the back of the tibia, and the menisci shift back with it, the lateral one further.</li>
+          <li>The cruciate ligaments cross inside the joint and guide that motion; the patella slides down the groove at the front of the femur, held by its tendon.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>This is not a diagnosis. Wait for the radiologist's report (Befund) and talk to your doctor.</p>
+  <p>Runs entirely in this browser. No tracking, no analytics, no external requests.</p>
+</footer>
+
+<noscript><p class="fatal">This viewer needs JavaScript to decode and display the images.</p></noscript>
+</body>
+</html>
